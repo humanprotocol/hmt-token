@@ -8,9 +8,9 @@
   },
   "scripts": {
     "fix": "eslint --fix .",
-    "migrate": "truffle compile; truffle migrate --network=local",
+    "migrate": "truffle compile; truffle migrate",
     "compile": "truffle compile",
-    "console": "truffle console --network=local",
+    "console": "truffle console",
     "fix:js": "eslint --fix test/** migrations/**",
     "lint:js": "eslint test/** migrations/**",
     "lint:sol": "solhint contracts/*.sol contracts/*/*.sol test/*.sol test/*/*.sol",
