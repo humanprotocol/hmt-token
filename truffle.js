@@ -10,10 +10,22 @@ module.exports = {
       port: 7545,
       network_id: '*',
     },
+    live: {
+      provider: () => new HDWalletProvider(MNEMONIC, `https://mainnet.infura.io/${INFURA_TOKEN}`),
+      network_id: '1',
+    },
+    kovan: {
+      provider: () => new HDWalletProvider(MNEMONIC, `https://kovan.infura.io/${INFURA_TOKEN}`),
+      network_id: '2',
+    },
     ropsten: {
-      provider: () => new HDWalletProvider(mnemonic, host),
+      provider: () => new HDWalletProvider(MNEMONIC, `https://ropsten.infura.io/${INFURA_TOKEN}`),
       network_id: '3',
-      gas: 5300000,
+      gas: 4700000,
+    },
+    rinkeby: {
+      provider: () => new HDWalletProvider(MNEMONIC, `https://rinkeby.infura.io/${INFURA_TOKEN}`),
+      network_id: '4',
     },
   },
 };
