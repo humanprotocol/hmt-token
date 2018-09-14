@@ -40,7 +40,7 @@ contract EIP20Factory {
     }
 
     function createEIP20(uint256 _initialAmount, string _name, uint8 _decimals, string _symbol) public returns (address _newToken) {
-        require(creator == address(0) || msg.sender == creator);
+        require(creator == address(0) || msg.sender == creator, "Contract creator invalid");
         creator = msg.sender;
         EIP20 newToken = (new EIP20(_initialAmount, _name, _decimals, _symbol));
         lastChild = address(newToken);

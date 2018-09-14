@@ -13,6 +13,7 @@
     "console": "truffle console --network=local",
     "fix:js": "eslint --fix test/** migrations/**",
     "lint:js": "eslint test/** migrations/**",
+    "lint:sol": "solhint contracts/*.sol contracts/*/*.sol test/*.sol test/*/*.sol",
     "lint": "npm run lint:js",
     "publish": "truffle publish",
     "pretest": "npm run lint",
@@ -47,6 +48,6 @@
     "eslint-plugin-mocha": "4.11.0",
     "eslint-plugin-node": "5.1.0",
     "eslint-plugin-react": "7.5.1",
-    "solhint": "1.1.9"
+    "solhint": "^1.2.1"
   }
 }

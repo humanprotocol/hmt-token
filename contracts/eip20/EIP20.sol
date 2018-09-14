@@ -8,11 +8,6 @@ import "./EIP20Interface.sol";
 import "./SafeMath.sol";
 
 
-contract EscrowFactory {
-    function isChild(address childAddress) public view returns (bool);
-}
-
-
 contract EIP20 is EIP20Interface {
     using SafeMath for uint256;
     uint256 private constant MAX_UINT256 = 2**256 - 1;
@@ -22,9 +17,9 @@ contract EIP20 is EIP20Interface {
     event BulkTransfer(uint256 indexed _txId, uint256 _bulkCount, uint256 _bulkValue);
     event BulkApproval(uint256 indexed _txId, uint256 _bulkCount, uint256 _bulkValue);
 
-    mapping (address => bool) pauseTransfer;
-    mapping (address => uint256) balances;
-    mapping (address => mapping (address => uint256)) allowed;
+    mapping (address => bool) public pauseTransfer;
+    mapping (address => uint256) public balances;
+    mapping (address => mapping (address => uint256)) public allowed;
 
     string public name;
     uint8 public decimals;
@@ -39,39 +34,16 @@ contract EIP20 is EIP20Interface {
         balances[msg.sender] = _totalSupply;
     }
 
-    function escrowFactory(address _escrowFactory) public returns(bool) {
-        require(escrowFactory == 0);
-        escrowFactory = _escrowFactory;
-        return true;
-    }
-
-    // Like `transfer()`, but fails quietly.
-    function transfer_q(address _to, uint256 _value) internal returns (bool success) {
-        // Use of `totalSupply` precludes overflow of the recipient balance, so we can forego checking for it.
-        if (_to == address(0)) return false; // Preclude burning tokens to uninitialized address.
-        if (_to == address(this)) return false; // Preclude sending tokens to the contract.
-        if (balances[msg.sender] < _value) return false;
-        EscrowFactory ef = EscrowFactory(escrowFactory);
-
-        balances[msg.sender] = balances[msg.sender].sub(_value);
-        balances[_to] = balances[_to].add(_value);
-
-        emit Transfer(msg.sender, _to, _value);
-
-        return true;
-    }
-
     function transfer(address _to, uint256 _value) public returns (bool success) {
-        success = transfer_q(_to, _value);
-        if (!success) revert();
+        success = transferQuiet(_to, _value);
+        if (!success) revert("Transfer didn't succeed");
         return success;
     }
 
     function transferFrom(address _spender, address _to, uint256 _value) public returns (bool success) {
         // Use of `totalSupply` precludes overflow of the recipient balance, so we can forego checking for it.
         uint256 _allowance = allowed[_spender][msg.sender];
-        require(balances[_spender] >= _value && _allowance >= _value);
-        EscrowFactory ef = EscrowFactory(escrowFactory);
+        require(balances[_spender] >= _value && _allowance >= _value, "Spender balance or allowance too low");
 
         balances[_to] = balances[_to].add(_value);
         balances[_spender] = balances[_spender].sub(_value);
@@ -79,7 +51,7 @@ contract EIP20 is EIP20Interface {
             allowed[_spender][msg.sender] = allowed[_spender][msg.sender].sub(_value);
         }
 
-        emit Transfer(_spender, _to, _value);
+        emit Transferral(_spender, _to, _value);
 
         return true;
     }
@@ -100,7 +72,7 @@ contract EIP20 is EIP20Interface {
             allowed[msg.sender][_spender] = MAX_UINT256 - 1;
         } else {
             allowed[msg.sender][_spender] += _delta;
-	    }
+        }
         emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
         return true;
     }
@@ -121,19 +93,19 @@ contract EIP20 is EIP20Interface {
     }
 
     function transferBulk(address[] _tos, uint256[] _values, uint256 _txId) public returns (uint256 _bulkCount) {
-        require(_tos.length == _values.length);
-        require(_tos.length < BULK_MAX_COUNT);
+        require(_tos.length == _values.length, "Amount of recipients and values don't match");
+        require(_tos.length < BULK_MAX_COUNT, "Too many recipients");
 
         uint256 _bulkValue = 0;
         for (uint j = 0; j < _tos.length; ++j) {
             _bulkValue = _bulkValue.add(_values[j]);
         }
-        require(_bulkValue < BULK_MAX_VALUE);
+        require(_bulkValue < BULK_MAX_VALUE, "Bulk value too high");
 
         _bulkCount = 0;
         bool _success;
         for (uint i = 0; i < _tos.length; ++i) {
-            _success = transfer_q(_tos[i], _values[i]);
+            _success = transferQuiet(_tos[i], _values[i]);
             if (_success) {
                 _bulkCount = _bulkCount.add(1);
                 _bulkValue = _bulkValue.add(_values[i]);
@@ -144,14 +116,14 @@ contract EIP20 is EIP20Interface {
     }
 
     function approveBulk(address[] _spenders, uint256[] _values, uint256 _txId) public returns (uint256 _bulkCount) {
-        require(_spenders.length == _values.length);
-        require(_spenders.length < BULK_MAX_COUNT);
+        require(_spenders.length == _values.length, "Amount of spenders and values don't match");
+        require(_spenders.length < BULK_MAX_COUNT, "Too many spenders");
 
         uint256 _bulkValue = 0;
         for (uint j = 0; j < _spenders.length; ++j) {
             _bulkValue = _bulkValue.add(_values[j]);
         }
-        require(_bulkValue < BULK_MAX_VALUE);
+        require(_bulkValue < BULK_MAX_VALUE, "Bulk value too high");
 
         _bulkCount = 0;
         bool _success;
@@ -164,5 +136,19 @@ contract EIP20 is EIP20Interface {
         }
         emit BulkApproval(_txId, _bulkCount, _bulkValue);
         return _bulkCount;
+    }
+
+        // Like `transfer()`, but fails quietly.
+    function transferQuiet(address _to, uint256 _value) internal returns (bool success) {
+        // Use of `totalSupply` precludes overflow of the recipient balance, so we can forego checking for it.
+        if (_to == address(0)) return false; // Preclude burning tokens to uninitialized address.
+        if (_to == address(this)) return false; // Preclude sending tokens to the contract.
+        if (balances[msg.sender] < _value) return false;
+
+        balances[msg.sender] = balances[msg.sender].sub(_value);
+        balances[_to] = balances[_to].add(_value);
+
+        emit Transferral(msg.sender, _to, _value);
+        return true;
     }
 }
