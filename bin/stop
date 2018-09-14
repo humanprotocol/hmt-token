@@ -1,0 +1,5 @@
+#!/bin/sh
+set -exu
+
+CONTAINER_NAME='hmtoken.ganache'
+docker rm -f $CONTAINER_NAME || true

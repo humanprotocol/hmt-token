@@ -1,0 +1,9 @@
+sudo: required
+language: nodejs
+
+services:
+  - docker
+
+script:
+  - docker build -t hcaptcha/hmt-token .
+  - ./bin/test

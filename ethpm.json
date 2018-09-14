@@ -1,0 +1,10 @@
+{
+  "package_name": "hmt-token",
+  "version": "0.0.1",
+  "description": "Human Token (HMT) powering HUMAN Protocol",
+  "authors": [
+    "HUMAN Protocol"
+  ],
+  "keywords": ["ethereum", "hcaptcha"],
+  "license": "MIT"
+}

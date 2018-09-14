@@ -1,0 +1,6 @@
+#!/bin/sh
+set -exu
+LABEL='hmt'
+
+docker build -t $LABEL .
+docker run --net=host -it $LABEL sh -c 'npm run lint'
