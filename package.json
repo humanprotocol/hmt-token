@@ -1,20 +1,17 @@
 {
-  "name": "erc20-tokens",
+  "name": "hmt-token",
   "version": "0.0.1",
-  "description": "Ethereum Token Contracts",
+  "description": "Human Token (HMT) powering HUMAN Protocol",
   "main": "truffle.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "fix": "eslint --fix .",
-    "migrate": "truffle compile; truffle migrate",
     "compile": "truffle compile",
-    "console": "truffle console",
     "fix:js": "eslint --fix test/** migrations/**",
     "lint:js": "eslint test/** migrations/**",
     "lint:sol": "solhint contracts/*.sol contracts/*/*.sol test/*.sol test/*/*.sol",
-    "lint": "npm run lint:js",
+    "lint": "npm run lint:js && npm run lint:sol",
     "publish": "truffle publish",
     "pretest": "npm run lint",
     "test": "truffle test"

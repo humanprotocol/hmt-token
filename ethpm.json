@@ -1,14 +1,10 @@
 {
-  "package_name": "tokens",
-  "version": "1.0.0",
-  "description": "Ethereum Token Contracts",
+  "package_name": "hmt-token",
+  "version": "0.0.1",
+  "description": "Human Token (HMT) powering HUMAN Protocol",
   "authors": [
-    "Simon de la Rouviere <simon.delarouviere@consensys.net>",
-    "Joseph Chow <joseph.chow@consensys.net>"
+    "HUMAN Protocol"
   ],
-  "keywords": [
-    "tokens",
-    "consensys"
-  ],
+  "keywords": ["ethereum", "hcaptcha"],
   "license": "MIT"
 }
