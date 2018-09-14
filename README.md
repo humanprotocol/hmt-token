@@ -1,8 +1,10 @@
 ## HMT Token
 The token powering [HUMAN Protocol](https://www.hmt.ai).
 
-## Motivation
-We open sourced our HMT token in order to prepare for the upcoming mainnet launch. This repository also features the source code for the EIP that brings bulk payments to the ERC20 token standard. Take a look at our blog post at [Bulk API](https://medium.com/p/fbc2f10669ed/edit) where we share more about our findings and benchmark results.
+## Description
+This repository features the source code for our HMT token.
+
+It includes a standard ERC20-compatible token along with a full implementation of our upcoming EIP that extends the ERC20 token standard with more efficient bulk payments. Take a look at our blog post on the [Bulk API](https://medium.com/p/fbc2f10669ed/edit) for a detailed explanation and benchmark results.
 
 ## Prerequisites
 Three environment variables are needed to interact with the contract:
@@ -61,7 +63,7 @@ You can inspect more of our linting scripts at `package.json`.
 Please submit your pull request against our `staging` branch.
 
 ## Acknowledgements
-We want to give recognition to ConsenSys for their work on the [ERC20 Tokens](https://github.com/ConsenSys/Tokens) template as it has been the base of our work.
+Thanks to ConsenSys for their work on the [ERC20 Token template](https://github.com/ConsenSys/Tokens), which provided a good starting point for our implementation.
 
 ## License
 MIT &copy; HUMAN Protocol
