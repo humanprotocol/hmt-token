@@ -1,0 +1,8 @@
+#!/bin/sh
+set -exu
+LABEL='het'
+CMD=${1-''}
+ACCOUNT_SRC=${ACCOUNT_SRC-"/tmp/account"}
+mkdir -p ${ACCOUNT_SRC}
+docker build -t $LABEL .
+docker run --net=host -v /tmp:/tmp -v ${ACCOUNT_SRC}:/account -ti $LABEL $CMD
