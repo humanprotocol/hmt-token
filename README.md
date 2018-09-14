@@ -7,7 +7,7 @@ We open sourced our HMT token in order to prepare for the upcoming mainnet launc
 ## Prerequisites
 Three environment variables are needed to interact with the contract:
 ```
-const { MNEMONIC, INFURA_TOKEN, KVSTORE_ADDRESS } = process.env;
+const { MNEMONIC, INFURA_TOKEN } = process.env;
 ```
 
 `MNEMONIC` is a list containing 12 to 24 words that ensure certain entropy to our wallet's security. You can get your 12-word mnemonic easily from https://metamask.io/
