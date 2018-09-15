@@ -12,7 +12,7 @@ contract EIP20Factory {
 
     constructor() public {
         //upon creation of the factory, deploy a EIP20 (parameters are meaningless) and store the bytecode provably.
-        verifiedToken = createEIP20(1000000000000, "Human Evaluation Token", 18, "HET");
+        verifiedToken = createEIP20(1000000000000, "Human Token", 18, "HMT");
         EIP20ByteCode = codeAt(verifiedToken);
         creator = msg.sender;
     }
