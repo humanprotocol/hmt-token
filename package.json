@@ -29,11 +29,11 @@
   "license": "MIT",
   "homepage": "https://github.com/hCaptcha/hmt-token#readme",
   "dependencies": {
-    "dotenv": "^6.0.0",
     "truffle": "4.1.13",
     "truffle-hdwallet-provider": "0.0.5"
   },
   "devDependencies": {
+    "dotenv": "^6.0.0",
     "eslint": "4.13.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "2.8.0",
