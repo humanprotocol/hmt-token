@@ -6,4 +6,4 @@ $(dirname $0)/stop
 docker run -d -p 8545:8545 --name hmtoken.ganache trufflesuite/ganache-cli:latest
 
 docker build -t $LABEL .
-docker run --net=host -it $LABEL npm run test
+docker run --net=host $LABEL npm run test
