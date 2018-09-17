@@ -2,7 +2,7 @@
 set -exu
 LABEL='hmt'
 
-bin/stop
+$(dirname $0)/stop
 docker run -d -p 8545:8545 --name hmtoken.ganache trufflesuite/ganache-cli:latest
 
 docker build -t $LABEL .
