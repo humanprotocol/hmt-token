@@ -4,11 +4,11 @@ pragma solidity 0.4.24;
 Implements EIP20 token standard: https://github.com/ethereum/EIPs/issues/20
 .*/
 
-import "./EIP20Interface.sol";
 import "./SafeMath.sol";
+import "./HMTokenInterface.sol";
 
 
-contract EIP20 is EIP20Interface {
+contract HMToken is HMTokenInterface {
     using SafeMath for uint256;
     uint256 private constant MAX_UINT256 = 2**256 - 1;
     uint32  private constant BULK_MAX_COUNT = 100;
