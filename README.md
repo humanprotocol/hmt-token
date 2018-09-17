@@ -1,6 +1,8 @@
 ## HMT Token
 The token powering [HUMAN Protocol](https://www.hmt.ai).
 
+[![Build Status](https://travis-ci.com/hCaptcha/hmt-token.svg?token=byLvtSyyx2YcM61JU8NG&branch=master)](https://travis-ci.com/hCaptcha/hmt-token)
+
 ## Description
 This repository features the source code for our HMT token.
 
