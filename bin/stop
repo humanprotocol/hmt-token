@@ -1,0 +1,4 @@
+#!/bin/sh
+set -exu
+
+docker rm -f hmtoken.ganache
