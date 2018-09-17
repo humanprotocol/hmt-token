@@ -11,8 +11,9 @@ It includes a standard ERC20-compatible token along with a full implementation o
 ### Docker
 Download and setup from https://www.docker.com/
 
-### Truffle
-Three environment variables are needed to interact with the contract:
+### Infura
+Three environment variables are needed to interact with the contracts:
+
 ```
 const { MNEMONIC, INFURA_TOKEN } = process.env;
 ```
@@ -21,11 +22,14 @@ const { MNEMONIC, INFURA_TOKEN } = process.env;
 
 `INFURA_TOKEN` is our gateway to the Ethereum blockchain and lets us easily interact with our contract without setting up our own node. You can get your token easily from https://infura.io/
 
-Once you have setup all the needed prerequisites, setup your local `.env` file in the root of your project
+Once you have setup all the token and the mnemonic, create your local `.env` file in the root of your project:
+
 ```
 touch .env
 ```
+
 with the following content:
+
 ```
 MNEMONIC=<your mnemonic>
 INFURA_TOKEN=<your infura token>
@@ -34,6 +38,7 @@ INFURA_TOKEN=<your infura token>
 ## Useful commands
 
 ### Compile and migrate contracts
+
 ```
 bin/run
 ```
