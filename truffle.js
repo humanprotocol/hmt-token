@@ -1,13 +1,13 @@
 require('dotenv').config()
 
-const { INFURA_TOKEN, MNEMONIC } = process.env;
+const { INFURA_TOKEN, MNEMONIC, ETH_HOST, ETH_PORT } = process.env;
 const HDWalletProvider = require('truffle-hdwallet-provider');
 
 module.exports = {
   networks: {
     development: {
-      host: '127.0.0.1',
-      port: 8545,
+      host: ETH_HOST || '127.0.0.1',
+      port: ETH_PORT || 8545,
       network_id: '*',
     },
     live: {
