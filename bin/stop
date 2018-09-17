@@ -1,4 +1,9 @@
 #!/bin/sh
 set -exu
 
-docker rm -f hmtoken.ganache
+CONTAINER_NAME='hmtoken.ganache'
+COUNT=$(docker ps -a | grep "$CONTAINER_NAME" | wc -l)
+if (($COUNT > 0))
+then
+    docker rm -f $CONTAINER_NAME
+fi

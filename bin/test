@@ -2,7 +2,8 @@
 set -exu
 LABEL='hmt'
 
+bin/stop
 docker run -d -p 8545:8545 --name hmtoken.ganache trufflesuite/ganache-cli:latest
 
 docker build -t $LABEL .
-docker run --net=host -it $LABEL sh -c 'npm run test'
+docker run --net=host -it $LABEL npm run test
