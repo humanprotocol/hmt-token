@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "compile": "truffle compile",
+    "compile": "truffle compile; truffle migrate",
     "fix:js": "eslint --fix test/** migrations/**",
     "lint:js": "eslint test/** migrations/**",
     "lint:sol": "solhint contracts/*.sol contracts/*/*.sol test/*.sol test/*/*.sol",
