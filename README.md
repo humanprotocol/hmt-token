@@ -7,6 +7,11 @@ This repository features the source code for our HMT token.
 It includes a standard ERC20-compatible token along with a full implementation of our upcoming EIP that extends the ERC20 token standard with more efficient bulk payments. Take a look at our blog post on the [Bulk API](https://medium.com/p/fbc2f10669ed/edit) for a detailed explanation and benchmark results.
 
 ## Prerequisites
+
+### Docker
+Download and setup from https://www.docker.com/
+
+### Truffle
 Three environment variables are needed to interact with the contract:
 ```
 const { MNEMONIC, INFURA_TOKEN } = process.env;
@@ -26,39 +31,33 @@ MNEMONIC=<your mnemonic>
 INFURA_TOKEN=<your infura token>
 ```
 
-## Installation
-You need Node as your environmental dependency. At the moment this is guaranteed to work with Node 8.
+## Useful commands
 
+### Compile and migrate contracts
 ```
-npm install
-npm run compile
-```
-
-## Testing
-```
-npm run test
+bin/run
 ```
 
-## Deployment
-If you want to deploy your HMT token to the Ethereum blockchain, you need to install Ganache first. Easiest way to get started is to install it from https://truffleframework.com/ganache
+### Run contract tests
 
-### Local deployment
 ```
-truffle migrate
+bin/test
 ```
 
-### Testnet deployment
-Currently we support the following testnets: Mainnet, Kovan, Ropsten, Rinkeby.
+### Lint both `.js` and `.sol` files
+
 ```
-truffle migrate --network ropsten
+bin/lint
+```
+
+### Stop the ganache container running as a daemon
+
+```
+bin/stop
 ```
 
 ## Contribute
 We welcome all pull requests! Please ensure you lint before the commit.
-```
-npm run lint
-```
-You can inspect more of our linting scripts at `package.json`.
 
 Please submit your pull request against our `staging` branch.
 
