@@ -1,5 +1,29 @@
+const fs = require('fs');
+const path = require('path');
 const HMToken = artifacts.require('./HMToken.sol');
 
+const ADDRESS_OUTPUT_FILENAME = '/deployed/hmt.address.json';
+
 module.exports = (deployer) => {
-  deployer.deploy(HMToken, 1000000000000, 'Human Token', 18, 'HMT');
+  deployer
+    .deploy(HMToken, 1000000000000, 'Human Token', 18, 'HMT')
+    .then(() => {
+      let fileContent = {
+        address: HMToken.address
+      };
+
+      try {
+        fs.mkdirSync(path.dirname(ADDRESS_OUTPUT_FILENAME));
+      } catch (err) {
+        if (err.code !== 'EEXIST') throw err
+      }
+
+      fs.writeFile(ADDRESS_OUTPUT_FILENAME, fileContent, (err) => {
+        if(err) {
+          console.error(`unable to write address to output file: ${ADDRESS_OUTPUT_FILENAME}`);
+        } else {
+          console.log(`deployed hmt token address stored in ${ADDRESS_OUTPUT_FILENAME}`)
+        }
+      });
+    });
 };
