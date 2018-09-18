@@ -3,6 +3,7 @@
 ![Twitter Follow](https://img.shields.io/twitter/follow/hCaptcha.svg?style=social&label=Follow)
 ![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)
 [![Travis Build Status](https://travis-ci.com/hCaptcha/hmt-token.svg?token=byLvtSyyx2YcM61JU8NG&branch=master)](https://travis-ci.com/hCaptcha/hmt-token)
+[![Docker Automated build](https://img.shields.io/docker/automated/hcaptcha/hmt-token.svg)](https://hub.docker.com/r/hcaptcha/hmt-token/)
 
 
 This repository features the source code for our HMT token.
@@ -44,6 +45,12 @@ ETH_PORT=<your eth port>
 
 ### Docker
 Easiest way to run and test the contracts is to use [Docker](https://www.docker.com). The commands for docker usage can be found from the `bin/` folder.
+
+If you want to pull this image and use it in your own projects, you can use the pre-built image [here](https://hub.docker.com/r/hcaptcha/hmt-token/): 
+
+```bash
+docker run -it hcaptcha/hmt-token
+```
 
 ### Local
 Locally ran [Ganache](https://truffleframework.com/ganache) is needed on the local machine. After that `npm run compile` compiles and migrates the contracts to the network. More commands can be found from the `package.json` script section.
