@@ -103,6 +103,7 @@ contract HMToken is HMTokenInterface {
         require(_bulkValue < BULK_MAX_VALUE, "Bulk value too high");
 
         _bulkCount = 0;
+        uint256 _bulkValue = 0;
         bool _success;
         for (uint i = 0; i < _tos.length; ++i) {
             _success = transferQuiet(_tos[i], _values[i]);
