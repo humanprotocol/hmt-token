@@ -8,7 +8,7 @@
 
 This repository features the source code for our HMT token.
 
-It includes a standard ERC20-compatible token along with a full implementation of our upcoming EIP that extends the ERC20 token standard with more efficient bulk payments. Take a look at our blog post on the [Bulk API](https://medium.com/p/fbc2f10669ed/edit) for a detailed explanation and benchmark results. For more details about the protocol design you can also check out our white paper on [HUMAN](https://www.hmt.ai).
+It includes a standard ERC20-compatible token along with a full implementation of our upcoming EIP that extends the ERC20 token standard with more efficient bulk payments. Take a look at our blog post on the [Bulk API](https://medium.com/human-protocol/transfer-your-tokens-9-600x-more-efficiently-on-ethereum-using-the-bulk-api-fbc2f10669ed) for a detailed explanation and benchmark results. For more details about the protocol design you can also check out our white paper on [HUMAN](https://www.hmt.ai).
 
 ## Installation and setup
 
