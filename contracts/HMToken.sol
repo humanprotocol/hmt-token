@@ -14,8 +14,8 @@ contract HMToken is HMTokenInterface {
     uint32  private constant BULK_MAX_COUNT = 100;
     uint32  private constant BULK_MAX_VALUE = 10000000;
 
-    event BulkTransfer(uint256 indexed _txId, uint256 _bulkCount, uint256 _bulkValue);
-    event BulkApproval(uint256 indexed _txId, uint256 _bulkCount, uint256 _bulkValue);
+    event BulkTransfer(uint256 indexed _txId, uint256 _bulkCount);
+    event BulkApproval(uint256 indexed _txId, uint256 _bulkCount);
 
     mapping (address => bool) public pauseTransfer;
     mapping (address => uint256) public balances;
@@ -108,10 +108,9 @@ contract HMToken is HMTokenInterface {
             _success = transferQuiet(_tos[i], _values[i]);
             if (_success) {
                 _bulkCount = _bulkCount.add(1);
-                _bulkValue = _bulkValue.add(_values[i]);
             }
         }
-        emit BulkTransfer(_txId, _bulkCount, _bulkValue);
+        emit BulkTransfer(_txId, _bulkCount);
         return _bulkCount;
     }
 
@@ -131,10 +130,9 @@ contract HMToken is HMTokenInterface {
             _success = increaseApproval(_spenders[i], _values[i]);
             if (_success) {
                 _bulkCount = _bulkCount.add(1);
-                _bulkValue = _bulkValue.add(_values[i]);
             }
         }
-        emit BulkApproval(_txId, _bulkCount, _bulkValue);
+        emit BulkApproval(_txId, _bulkCount);
         return _bulkCount;
     }
 
