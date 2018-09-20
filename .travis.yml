@@ -6,4 +6,8 @@ services:
 
 script:
   - docker build -t hcaptcha/hmt-token .
-  - ./bin/test
+  - "./bin/test"
+
+notifications:
+  slack:
+    secure: oAOlWLZemuaAGzO3s1Awvbe4ofl251AvPvQJltumtYMOehc8PBCUI3BJs0WbRpZmTyYodheZZ+JMDcUP4Q3yER2Op+cv8Lkbxh8o+/kVqk8Z25Zr/zR66sqtIJI9CwUP7J3yYzIZyGWpADmXI3eIuK2uog0SoGhl4MwObqvt2ILIZ7DYAkF6GjcrutOOx5E2Azz6VCFdsJiTyWBImXbFjICJlUWEiRQINfjzujNJwUQZuemz4XX/xhT5wF4dEIiEk50qYMCbEsm5D4Q0I6YqkgydJ+3+tZzwCotPk6oZ1BJsOIACvVjszJFVycm6ClUl1OL8bTnXgwBGX0Jv+xF4WFt1O6Nct8DmPNeMjKE22q2I3zEnNUmatj9VNDOHuo2do+47XsH83AilAZHHs4KDy8SS+SV8URnPEe8yr3z4PDKEkVoU0OLLiP3jSYf4hVYfwdXyxc5jLSQOS8+uUwclqa6YuQ/QWFmW0n9LFbGgh6qm4v05RmHlG64ttNKe2bS5b4d7022hWFBJFn8vET71SefpB/JIJAfn6BlFUC30TpO/Q6xvbxgWRTRNaaCbSRx8r/vMMgkM1o8Zt+GriycwZ4iDEXzPX12P/9aKN4PCHdFzBo5fxcT4YVFQirLGLXN7658JMqnvL5SWUypThrTmQa5WZYYMA0SkP+XLC2Y4RI4=
