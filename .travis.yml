@@ -2,12 +2,12 @@ sudo: required
 language: nodejs
 
 services:
-  - docker
+- docker
 
 script:
-  - docker build -t hcaptcha/hmt-token .
-  - ./bin/test
+- docker build -t hcaptcha/hmt-token .
+- "./bin/test"
 
 notifications:
-    slack:
-        secure: drJZ13HvkL1z1fq7H8leEefp2ybXYRCezagJnqZkZJKVhE5J90PxJB2mNwoBoOsIDGSqpfOPPvAt3D6XzdLzxd4gze77i5uOjJt6pdvvYE8qJfjGGYQNJWipcpKqcaiU/RY4lFaAqlfQdqk9wG447I6mq8YHVlIDkvU8ZXr4Ju8wUOaO2qAptJFBIZfIloGSy6A1ueWm964fahxloH/KFJWE4hCoWUqfUo+ToGnnfWv4n1p1sxAAkj77rDh+2qdd+vrRRE+keC+x5Y5c2QRhfnmWC/IcvAGw+vxoZvvIoBfTmI4usHqpwwC9YbbRUBpv1wBHoURSbDCk0uLi7I0y4DfzR9xJrNtFcjvgWOVQadWYviqxg+Gvci4xK8KFhGFRp14/glpxdm9MW1dMwfy6jZeQh8nr6GF7DLmz4pB5In8Qx/rVAE/hQqPfv2H7PPCaQEcEMTPKcYG1B5+w1ZFAJycesY53Bvov1qPgIAalVfFTId121Qt0MX+OSh89WZPyTIeZd0xy7cdz+hYwVjrae2CZ5hM441tCHRKIIB+sSVb++QPxqZk4mFpjdx9nHT63JmVKQ83iIEjkTbHiVUZHVGGJGhaP6uGBLFG+l8SQXtrjWFzIxwAR2KS/VMFNVJvjMtWvMkwDplhxF8YcnCj7Xg3rhAcVkpC+CgjKcyGlmSM=
+  slack:
+    secure: WuDdfZ2ccEhI8x3wTmWs/KgIUW9HXLoO/Jqt7+jzA4vIbkO1Qw+BXOjbdB5f+1fT7yWDqWi5n3FsVcUgF6Gfmm3+rzTXmwyi6xzFo8XoOvH17nRvrlj8khAvTA0nDHLCDrE4d1I5xXYQ7pAYn9UMZEWU1/aghFi804WoZ9nWg9TURATixRFKLuzwGJGYw9CNwxw1fGRQFwEe1P1v/vJdQ+mlvwNpX2L9jGaDq7xzmdsClabak6JvF67oBGh7/Qo86gwqcRm79oTMM+ldb6hEOcaEQHC2NRxUPn9W1pCsiupWz6i/RvkCE16xv3DWjc/VzmvTp5GzqD5ILEM7FlUhJL88oa85/m3Bl4cq7FjPUfuFtDj1epCR5Ij6AyVbwompAzE9yFBGh0J4+DdlkCHqEwuuAB9mfUkeLpBo8r6zdRpJPMU6qPpMtej6IkT34QwCezQMh4D2a4OpAFQx6pcFsKEAthlivX2pzIC48NKw1V2m2CAc3qGVJDd95QiInLVHQCQmZ/oa3Z7t+Ds2Tn2qJ3rizyym0O7KSq6BIs+QJFhTfprS5EPwIDs9z9zr+b9q/OPT7bzgGRqZfxU+A0uW97TCX6sYy95dV/xTOBiMjbSRsC/QFIWbN+94/A5v07hmhlcxsCHwl09ezYGztBrFdNm9jd+Y2nVyiMQhXU70IUc=
