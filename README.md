@@ -49,7 +49,7 @@ Easiest way to run and test the contracts is to use [Docker](https://www.docker.
 If you want to pull this image and use it in your own projects, you can use the pre-built image [here](https://hub.docker.com/r/hcaptcha/hmt-token/): 
 
 ```bash
-docker run -it hcaptcha/hmt-token
+docker pull hcaptcha/hmt-token
 ```
 
 ### Local
