@@ -2,7 +2,7 @@
 
 ![Twitter Follow](https://img.shields.io/twitter/follow/hCaptcha.svg?style=social&label=Follow)
 ![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)
-[![Travis Build Status](https://travis-ci.com/hCaptcha/hmt-token.svg?token=byLvtSyyx2YcM61JU8NG&branch=master)](https://travis-ci.com/hCaptcha/hmt-token)
+[![Travis Build Status](https://travis-ci.org/hCaptcha/hmt-token.svg?branch=master)](https://travis-ci.org/hCaptcha/hmt-token)
 [![Docker Automated build](https://img.shields.io/docker/automated/hcaptcha/hmt-token.svg)](https://hub.docker.com/r/hcaptcha/hmt-token/)
 
 
