@@ -65,3 +65,5 @@ Thanks to ConsenSys for their work on the [ERC20 Token template](https://github.
 
 ## License
 MIT &copy; HUMAN Protocol
+
+
