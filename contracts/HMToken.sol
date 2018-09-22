@@ -4,7 +4,7 @@ pragma solidity 0.4.24;
 Implements EIP20 token standard: https://github.com/ethereum/EIPs/issues/20
 .*/
 
-import "./SafeMath.sol";
+import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "./HMTokenInterface.sol";
 
 
