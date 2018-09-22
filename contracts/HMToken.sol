@@ -68,10 +68,10 @@ contract HMToken is HMTokenInterface {
 
     function increaseApproval(address _spender, uint _delta) public returns (bool success) {
         uint _oldValue = allowed[msg.sender][_spender];
-        if (_oldValue + _delta < _oldValue || _oldValue + _delta == MAX_UINT256) { // Truncate upon overflow.
-            allowed[msg.sender][_spender] = MAX_UINT256 - 1;
+        if (_oldValue.add(_delta) < _oldValue || _oldValue.add(_delta) == MAX_UINT256) { // Truncate upon overflow.
+            allowed[msg.sender][_spender] = MAX_UINT256.sub(1);
         } else {
-            allowed[msg.sender][_spender] += _delta;
+            allowed[msg.sender][_spender] = allowed[msg.sender][_spender].add(_delta);
         }
         emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
         return true;
@@ -82,7 +82,7 @@ contract HMToken is HMTokenInterface {
         if (_delta > _oldValue) { // Truncate upon overflow.
             allowed[msg.sender][_spender] = 0;
         } else {
-            allowed[msg.sender][_spender] -= _delta;
+            allowed[msg.sender][_spender] = allowed[msg.sender][_spender].sub(_delta);
         }
         emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
         return true;
