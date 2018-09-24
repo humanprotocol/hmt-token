@@ -4,7 +4,7 @@ language: nodejs
 services:
   - docker
 script:
-  - docker build -t hcaptcha/hmt-token .
+  - "./bin/build"
   - "./bin/test"
 notifications:
   slack:
