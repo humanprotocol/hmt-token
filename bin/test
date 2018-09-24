@@ -1,9 +1,5 @@
 #!/bin/sh
 set -exu
-LABEL='hmt'
 
-$(dirname $0)/stop
-docker run -d -p 8545:8545 --name hmtoken.ganache trufflesuite/ganache-cli:latest
-
-docker build -t $LABEL .
-docker run --net=host $LABEL npm run test
+CONTAINERS=${1-"hmt"}
+docker-compose run $CONTAINERS npm run test
