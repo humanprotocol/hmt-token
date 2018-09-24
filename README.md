@@ -57,8 +57,8 @@ Locally ran [Ganache](https://truffleframework.com/ganache) is needed on the loc
 
 ## Contribute
 We welcome all pull requests! Please ensure you lint before the commit.
-
 Please submit your pull request against our `staging` branch.
+For our bug bounty [Click](https://github.com/hCaptcha/bounties)
 
 ## Acknowledgements
 Thanks to ConsenSys for their work on the [ERC20 Token template](https://github.com/ConsenSys/Tokens), which provided a good starting point for our implementation.
