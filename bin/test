@@ -1,5 +1,5 @@
 #!/bin/sh
 set -exu
 
-CONTAINERS=${1-"hmt"}
-docker-compose run $CONTAINERS npm run test
+docker-compose run hmt npm run test
+bin/stop
