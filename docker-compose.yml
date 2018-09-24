@@ -5,6 +5,7 @@ services:
     ports:
       - 8545:8545
   hmt:
+    build: .
     image: hcaptcha/hmt-token
     environment:
       - ETH_HOST=ganache
