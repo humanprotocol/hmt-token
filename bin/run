@@ -1,5 +1,5 @@
 #!/bin/sh
 set -exu
 
-docker-compose run hmt
+docker-compose up hmt
 $(dirname $0)/stop
