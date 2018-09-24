@@ -2,4 +2,4 @@
 set -exu
 
 docker-compose run hmt
-bin/stop
+$(dirname $0)/stop
