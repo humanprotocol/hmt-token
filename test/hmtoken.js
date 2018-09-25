@@ -44,13 +44,13 @@ contract('HMToken', (accounts) => {
     assert.strictEqual(balanceAfter.toNumber(), 1000000);
   });
 
-  it('transfers: should transfer 10000 to accounts[1] with accounts[0] having 10000', async () => {
+  it('transfers: should transfer 1000000 to accounts[1] with accounts[0] having 10000', async () => {
     await HMT.transfer(accounts[1], 1000000, { from: accounts[0] });
     const balance = await HMT.balanceOf.call(accounts[1]);
     assert.strictEqual(balance.toNumber(), 1000000);
   });
 
-  it('transfers: should fail when trying to transfer 10001 to accounts[1] with accounts[0] having 10000', async () => {
+  it('transfers: should fail when trying to transfer 1000001 to accounts[1] with accounts[0] having 10000', async () => {
     await assertRevert(HMT.transfer.call(accounts[1], 1000001, { from: accounts[0] }));
   });
 
