@@ -1,5 +1,6 @@
 #!/bin/sh
 set -exu
 
+$(dirname $0)/build
 docker-compose run hmt npm run test
 $(dirname $0)/stop
