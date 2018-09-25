@@ -8,7 +8,7 @@ const ADDRESS_OUTPUT_FILENAME = '/deployed/hmt.address.json';
 
 module.exports = (deployer) => {
   deployer
-    .deploy(HMToken, 1000000000000, 'Human Token', 18, 'HMT')
+    .deploy(HMToken, 1000000000, 'Human Token', 18, 'HMT')
     .then(() => {
       const fileContent = {
         address: HMToken.address,
