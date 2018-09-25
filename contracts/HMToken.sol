@@ -12,7 +12,7 @@ contract HMToken is HMTokenInterface {
     using SafeMath for uint256;
     uint256 private constant MAX_UINT256 = 2**256 - 1;
     uint32  private constant BULK_MAX_COUNT = 100;
-    uint32  private constant BULK_MAX_VALUE = 10000000;
+    uint32  private constant BULK_MAX_VALUE;
 
     event BulkTransfer(uint256 indexed _txId, uint256 _bulkCount);
     event BulkApproval(uint256 indexed _txId, uint256 _bulkCount);
@@ -30,6 +30,7 @@ contract HMToken is HMTokenInterface {
         decimals = _decimals;
         symbol = _symbol;
         balances[msg.sender] = totalSupply;
+        BULK_MAX_VALUE = totalSupply;
     }
 
     function transfer(address _to, uint256 _value) public returns (bool success) {
