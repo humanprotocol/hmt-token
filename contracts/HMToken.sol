@@ -20,9 +20,9 @@ contract HMToken is HMTokenInterface {
     mapping (address => uint256) private balances;
     mapping (address => mapping (address => uint256)) private allowed;
 
-    string private name;
-    uint8 private decimals;
-    string private symbol;
+    string public name;
+    uint8 public decimals;
+    string public symbol;
 
     constructor(uint256 _totalSupply, string _name, uint8 _decimals, string _symbol) public {
         totalSupply = _totalSupply * (10 ** uint256(_decimals));
