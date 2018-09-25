@@ -213,7 +213,7 @@ contract('HMToken', (accounts) => {
     assert.strictEqual(balance02.toNumber(), 999994);
   });
 
-  it('events: should fire BulkApproveevent properly', async () => {
+  it('events: should fire BulkApprove event properly', async () => {
     const addresses = [accounts[1], accounts[2], accounts[3]];
     const amounts = [1, 2, 3];
     const res = await HMT.approveBulk(addresses, amounts, 101);
