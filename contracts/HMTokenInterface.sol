@@ -16,7 +16,7 @@ contract HMTokenInterface {
     /// total amount of tokens
     uint256 public totalSupply;
 
-    event Transferral(address indexed _from, address indexed _to, uint256 _value);
+    event Transfer(address indexed _from, address indexed _to, uint256 _value);
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 
     /// @param _owner The address from which the balance will be retrieved
