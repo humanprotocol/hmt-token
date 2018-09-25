@@ -17,14 +17,12 @@ contract HMToken is HMTokenInterface {
     event BulkTransfer(uint256 indexed _txId, uint256 _bulkCount);
     event BulkApproval(uint256 indexed _txId, uint256 _bulkCount);
 
-    mapping (address => bool) public pauseTransfer;
-    mapping (address => uint256) public balances;
-    mapping (address => mapping (address => uint256)) public allowed;
+    mapping (address => uint256) private balances;
+    mapping (address => mapping (address => uint256)) private allowed;
 
-    string public name;
-    uint8 public decimals;
-    string public symbol;
-    address public escrowFactory = 0;
+    string private name;
+    uint8 private decimals;
+    string private symbol;
 
     constructor(uint256 _totalSupply, string _name, uint8 _decimals, string _symbol) public {
         totalSupply = _totalSupply * (10 ** uint256(_decimals));
@@ -36,23 +34,23 @@ contract HMToken is HMTokenInterface {
 
     function transfer(address _to, uint256 _value) public returns (bool success) {
         success = transferQuiet(_to, _value);
-        if (!success) revert("Transfer didn't succeed");
+        require(success, "Transfer didn't succeed");
         return success;
     }
 
     function transferFrom(address _spender, address _to, uint256 _value) public returns (bool success) {
-        // Use of `totalSupply` precludes overflow of the recipient balance, so we can forego checking for it.
         uint256 _allowance = allowed[_spender][msg.sender];
         require(balances[_spender] >= _value && _allowance >= _value, "Spender balance or allowance too low");
+        require(_to != address(0), "Can't send tokens to uninitialized address");
 
-        balances[_to] = balances[_to].add(_value);
         balances[_spender] = balances[_spender].sub(_value);
+        balances[_to] = balances[_to].add(_value);
+
         if (_allowance < MAX_UINT256) { // Special case to approve unlimited transfers
             allowed[_spender][msg.sender] = allowed[_spender][msg.sender].sub(_value);
         }
 
         emit Transfer(_spender, _to, _value);
-
         return true;
     }
 
@@ -61,14 +59,18 @@ contract HMToken is HMTokenInterface {
     }
 
     function approve(address _spender, uint256 _value) public returns (bool success) {
+        require(_spender != address(0), "Token spender is an uninitialized address");
+        
         allowed[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value); //solhint-disable-line indent, no-unused-vars
         return true;
     }
 
     function increaseApproval(address _spender, uint _delta) public returns (bool success) {
+        require(_spender != address(0), "Token spender is an uninitialized address");
+        
         uint _oldValue = allowed[msg.sender][_spender];
-        if (_oldValue.add(_delta) < _oldValue || _oldValue.add(_delta) == MAX_UINT256) { // Truncate upon overflow.
+        if (_oldValue.add(_delta) < _oldValue || _oldValue.add(_delta) >= MAX_UINT256) { // Truncate upon overflow.
             allowed[msg.sender][_spender] = MAX_UINT256.sub(1);
         } else {
             allowed[msg.sender][_spender] = allowed[msg.sender][_spender].add(_delta);
@@ -78,6 +80,8 @@ contract HMToken is HMTokenInterface {
     }
 
     function decreaseApproval(address _spender, uint _delta) public returns (bool success) {
+        require(_spender != address(0), "Token spender is an uninitialized address");
+        
         uint _oldValue = allowed[msg.sender][_spender];
         if (_delta > _oldValue) { // Truncate upon overflow.
             allowed[msg.sender][_spender] = 0;
@@ -136,9 +140,8 @@ contract HMToken is HMTokenInterface {
         return _bulkCount;
     }
 
-        // Like `transfer()`, but fails quietly.
+    // Like transfer, but fails quietly.
     function transferQuiet(address _to, uint256 _value) internal returns (bool success) {
-        // Use of `totalSupply` precludes overflow of the recipient balance, so we can forego checking for it.
         if (_to == address(0)) return false; // Preclude burning tokens to uninitialized address.
         if (_to == address(this)) return false; // Preclude sending tokens to the contract.
         if (balances[msg.sender] < _value) return false;
