@@ -8,7 +8,8 @@
       "indent": ["warn", 4],
       "max-line-length": 150,
       "var-name-mixedcase": false,
-      "func-param-name-mixedcase": false
+      "func-param-name-mixedcase": false,
+      "no-simple-event-func-name": false
     }
   }
   
