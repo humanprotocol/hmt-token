@@ -9,56 +9,6 @@ Search through already labeled Issues such as `area:contracts` and `kind:feature
 If you want to start solving the `Issue`, please comment in it with something like: "I would like to take a stab at this". This will help us coordinate and distribute the workload.
 
 See below for more guidelines on [Pull Requests](#pull-requests).
-## Developer setup
-
-The following environment variables are needed to interact with the contracts:
-
-```
-const { MNEMONIC, INFURA_TOKEN, HET_HOST, HET_PORT } = process.env;
-```
-
-`MNEMONIC` is a list containing 12 to 24 words that ensure certain entropy to our wallet's security. You can get your 12-word mnemonic easily from https://metamask.io/
-
-`INFURA_TOKEN` is our gateway to the Ethereum blockchain and lets us easily interact with our contract without setting up our own node. You can get your token easily from https://infura.io/
-
-`ETH_HOST` the gateway to ethereum. Defaults to localhost if not given.
-
-`ETH_PORT` the port used to access ganache. Defaults to 8545 if not given.
-
-Once you have setup all the token and the mnemonic, create your local `.env` file in the root of your project:
-
-```
-touch .env
-```
-
-with the following content:
-
-```
-MNEMONIC=<your mnemonic>
-INFURA_TOKEN=<your infura token>
-ETH_HOST=<your eth host>
-ETH_PORT=<your eth port>
-```
-
-## Docker (recommended)
-Easiest way to run and test the contracts is to use [Docker](https://www.docker.com). If you want to pull this image and use it in your own projects, you can use the pre-built image [here](https://hub.docker.com/r/hcaptcha/hmt-token/): 
-
-```
-docker pull hcaptcha/hmt-token
-```
-
-In order to get going, you can run the following commands. These build the docker container and compile and migrate the contracts to the container's network.
-```
-bin/build
-bin/run
-```
-
-### Local
-You need at least Node 8 to run the project. Also [Ganache](https://truffleframework.com/ganache) is needed as a prerequisite. After that the following commands will get you through:
-```
-npm install
-npm run compile
-```
 
 ## Making Changes
 When you are preparing to make your pull request, do the following things.
