@@ -1,4 +1,4 @@
-pragma solidity 0.5.8;
+pragma solidity 0.4.24;
 
 /*
 Implements EIP20 token standard: https://github.com/ethereum/EIPs/issues/20
@@ -15,7 +15,9 @@ contract HMToken is HMTokenInterface {
     uint32  private constant BULK_MAX_COUNT = 100;
 
     event BulkTransfer(uint256 indexed _txId, uint256 _bulkCount);
+    event BulkTransferFailure(uint256 indexed _txId, uint256 _bulkCount);
     event BulkApproval(uint256 indexed _txId, uint256 _bulkCount);
+    event BulkApprovalFailure(uint256 indexed _txId, uint256 _bulkCount);
 
     mapping (address => uint256) private balances;
     mapping (address => mapping (address => uint256)) private allowed;
@@ -112,6 +114,8 @@ contract HMToken is HMTokenInterface {
             _success = transferQuiet(_tos[i], _values[i]);
             if (_success) {
                 _bulkCount = _bulkCount.add(1);
+            } else {
+                emit BulkTransferFailure(_txId, _bulkCount);
             }
         }
         emit BulkTransfer(_txId, _bulkCount);
@@ -134,6 +138,8 @@ contract HMToken is HMTokenInterface {
             _success = increaseApproval(_spenders[i], _values[i]);
             if (_success) {
                 _bulkCount = _bulkCount.add(1);
+            } else {
+                emit BulkApprovalFailure(_txId, _bulkCount);
             }
         }
         emit BulkApproval(_txId, _bulkCount);
