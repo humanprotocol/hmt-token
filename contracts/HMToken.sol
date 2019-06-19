@@ -150,8 +150,8 @@ contract HMToken is HMTokenInterface {
     function transferQuiet(address _to, uint256 _value) internal returns (bool success) {
         if (_to == address(0)) return false; // Preclude burning tokens to uninitialized address.
         if (_to == address(this)) return false; // Preclude sending tokens to the contract.
-        if (balances[msg.sender] < _value) return false;
-        if (balances[_to] + _value < balances[_to]) return false;
+        if (balances[msg.sender] < _value) return false; // Preclude transfering more than sender's balance.
+        if (balances[_to] + _value < balances[_to]) return false; // Handle overflow here in order to avoid reverts from SafeMath.
 
         balances[msg.sender] = balances[msg.sender].sub(_value);
         balances[_to] = balances[_to].add(_value);
