@@ -1,4 +1,4 @@
-pragma solidity 0.4.24;
+pragma solidity 0.5.8;
 
 /*
 Implements EIP20 token standard: https://github.com/ethereum/EIPs/issues/20
@@ -145,6 +145,7 @@ contract HMToken is HMTokenInterface {
         if (_to == address(0)) return false; // Preclude burning tokens to uninitialized address.
         if (_to == address(this)) return false; // Preclude sending tokens to the contract.
         if (balances[msg.sender] < _value) return false;
+        if (balances[_to] + _value < balances[_to]) return false;
 
         balances[msg.sender] = balances[msg.sender].sub(_value);
         balances[_to] = balances[_to].add(_value);
