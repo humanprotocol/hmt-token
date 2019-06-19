@@ -46,7 +46,7 @@ contract HMToken is HMTokenInterface {
         balances[_spender] = balances[_spender].sub(_value);
         balances[_to] = balances[_to].add(_value);
 
-        if (_allowance < MAX_UINT256) { // Special case to approve unlimited transfers
+        if (_allowance < MAX_UINT256) {
             allowed[_spender][msg.sender] = allowed[_spender][msg.sender].sub(_value);
         }
 
@@ -60,7 +60,7 @@ contract HMToken is HMTokenInterface {
 
     function approve(address _spender, uint256 _value) public returns (bool success) {
         require(_spender != address(0), "Token spender is an uninitialized address");
-        
+
         allowed[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value); //solhint-disable-line indent, no-unused-vars
         return true;
@@ -68,7 +68,7 @@ contract HMToken is HMTokenInterface {
 
     function increaseApproval(address _spender, uint _delta) public returns (bool success) {
         require(_spender != address(0), "Token spender is an uninitialized address");
-        
+
         uint _oldValue = allowed[msg.sender][_spender];
         if (_oldValue.add(_delta) < _oldValue || _oldValue.add(_delta) >= MAX_UINT256) { // Truncate upon overflow.
             allowed[msg.sender][_spender] = MAX_UINT256.sub(1);
@@ -81,7 +81,7 @@ contract HMToken is HMTokenInterface {
 
     function decreaseApproval(address _spender, uint _delta) public returns (bool success) {
         require(_spender != address(0), "Token spender is an uninitialized address");
-        
+
         uint _oldValue = allowed[msg.sender][_spender];
         if (_delta > _oldValue) { // Truncate upon overflow.
             allowed[msg.sender][_spender] = 0;
