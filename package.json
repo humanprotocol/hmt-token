@@ -29,7 +29,6 @@
   "license": "MIT",
   "homepage": "https://github.com/hCaptcha/hmt-token#readme",
   "dependencies": {
-    "openzeppelin-solidity": "^1.12.0",
     "truffle": "4.1.13",
     "truffle-hdwallet-provider": "0.0.5"
   },
