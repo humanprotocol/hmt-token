@@ -1,10 +1,10 @@
-pragma solidity 0.4.24;
+pragma solidity 0.5.9;
 
 /*
 Implements EIP20 token standard: https://github.com/ethereum/EIPs/issues/20
 .*/
 
-import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "./SafeMath.sol";
 import "./HMTokenInterface.sol";
 
 
@@ -26,7 +26,7 @@ contract HMToken is HMTokenInterface {
     uint8 public decimals;
     string public symbol;
 
-    constructor(uint256 _totalSupply, string _name, uint8 _decimals, string _symbol) public {
+    constructor(uint256 _totalSupply, string memory _name, uint8 _decimals, string memory _symbol) public {
         totalSupply = _totalSupply * (10 ** uint256(_decimals));
         name = _name;
         decimals = _decimals;
@@ -98,7 +98,7 @@ contract HMToken is HMTokenInterface {
         return allowed[_owner][_spender];
     }
 
-    function transferBulk(address[] _tos, uint256[] _values, uint256 _txId) public returns (uint256 _bulkCount) {
+    function transferBulk(address[] memory _tos, uint256[] memory _values, uint256 _txId) public returns (uint256 _bulkCount) {
         require(_tos.length == _values.length, "Amount of recipients and values don't match");
         require(_tos.length < BULK_MAX_COUNT, "Too many recipients");
 
@@ -122,7 +122,7 @@ contract HMToken is HMTokenInterface {
         return _bulkCount;
     }
 
-    function approveBulk(address[] _spenders, uint256[] _values, uint256 _txId) public returns (uint256 _bulkCount) {
+    function approveBulk(address[] memory _spenders, uint256[] memory _values, uint256 _txId) public returns (uint256 _bulkCount) {
         require(_spenders.length == _values.length, "Amount of spenders and values don't match");
         require(_spenders.length < BULK_MAX_COUNT, "Too many spenders");
 
