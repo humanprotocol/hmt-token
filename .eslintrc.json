@@ -1,25 +1,24 @@
 {
-    "extends": "airbnb",
-    "env": {
-      "node": true,
-      "mocha": true,
-      "es6": true
-    },
-    "parserOptions": {
-      "ecmaVersion": 8,
-      "sourceType": "module"
-    },
-    "rules": {
-      "no-console": 0
-    },
-    "globals": {
-      "assert": true,
-      "it": true,
-      "before": true,
-      "beforeEach": true,
-      "artifacts": true,
-      "contract": true,
-      "web3": true
-    }
+  "extends": "airbnb",
+  "env": {
+    "node": true,
+    "mocha": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-console": "off"
+  },
+  "globals": {
+    "assert": true,
+    "it": true,
+    "before": true,
+    "beforeEach": true,
+    "artifacts": true,
+    "contract": true,
+    "web3": true
   }
-  
+}

@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:12-alpine
 
 WORKDIR /work
 RUN apk update && \
@@ -7,10 +7,9 @@ RUN apk update && \
     npm install -g yarn && \
     yarn global add truffle
 
-COPY package.json /work/
-COPY yarn.lock /work/
+COPY package.json yarn.lock /work/
 RUN yarn
 
 COPY . /work/
 
-CMD ["npm", "run", "compile"]
+CMD ["yarn", "compile"]

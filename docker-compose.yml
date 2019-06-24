@@ -1,4 +1,4 @@
-version: '2'
+version: "2"
 services:
   ganache:
     image: trufflesuite/ganache-cli:latest
@@ -6,7 +6,6 @@ services:
       - 8545:8545
   hmt:
     build: .
-    image: hcaptcha/hmt-token
     environment:
       - ETH_HOST=ganache
       - ETH_PORT=8545

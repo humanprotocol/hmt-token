@@ -2,5 +2,5 @@
 set -exu
 
 $(dirname $0)/build
-docker-compose run hmt npm run lint
+docker-compose run hmt yarn lint
 $(dirname $0)/stop
