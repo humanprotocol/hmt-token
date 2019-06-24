@@ -1,6 +1,6 @@
 {
   "name": "hmt-token",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Human Token (HMT) powering HUMAN Protocol",
   "main": "truffle.js",
   "directories": {
