@@ -1,53 +1,64 @@
 const { assertRevert } = require('./helpers/assertRevert');
 
 const HMTokenAbstraction = artifacts.require('HMToken');
-const { BigNumber } = web3;
+const { BN } = web3.utils.BN;
 let HMT;
 let supply;
 
 contract('HMToken', (accounts) => {
   beforeEach(async () => {
-    supply = new BigNumber('100').toNumber();
-    HMT = await HMTokenAbstraction.new(supply, 'Human Token', 4, 'HMT', { from: accounts[0] });
+    supply = new BN('100').toNumber();
+    HMT = await HMTokenAbstraction.new(supply, 'Human Token', 4, 'HMT', {
+      from: accounts[0],
+    });
   });
 
   it('creation: should create an initial balance of 1000000 for the creator', async () => {
     const balance = await HMT.balanceOf.call(accounts[0]);
-    assert.strictEqual(balance.toNumber(), 1000000);
+    assert.equal(balance.toNumber(), 1000000);
   });
 
   it('creation: test correct setting of vanity information', async () => {
     const name = await HMT.name.call();
-    assert.strictEqual(name, 'Human Token');
+    assert.equal(name, 'Human Token');
 
     const decimals = await HMT.decimals.call();
-    assert.strictEqual(decimals.toNumber(), 4);
+    assert.equal(decimals.toNumber(), 4);
 
     const symbol = await HMT.symbol.call();
-    assert.strictEqual(symbol, 'HMT');
+    assert.equal(symbol, 'HMT');
   });
 
   // TRANSFERS
   // normal transfers without approvals
   it('transfers: ether transfer should be reversed.', async () => {
     const balanceBefore = await HMT.balanceOf.call(accounts[0]);
-    assert.strictEqual(balanceBefore.toNumber(), 1000000);
+    assert.equal(balanceBefore.toNumber(), 1000000);
 
     await assertRevert(new Promise((resolve, reject) => {
-      web3.eth.sendTransaction({ from: accounts[0], to: HMT.address, value: web3.toWei('10', 'Ether') }, (err, res) => {
-        if (err) { reject(err); }
-        resolve(res);
-      });
+      web3.eth.sendTransaction(
+        {
+          from: accounts[0],
+          to: HMT.address,
+          value: web3.utils.toWei('10', 'Ether'),
+        },
+        (err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res);
+        },
+      );
     }));
 
     const balanceAfter = await HMT.balanceOf.call(accounts[0]);
-    assert.strictEqual(balanceAfter.toNumber(), 1000000);
+    assert.equal(balanceAfter.toNumber(), 1000000);
   });
 
   it('transfers: should transfer 1000000 to accounts[1] with accounts[0] having 10000', async () => {
     await HMT.transfer(accounts[1], 1000000, { from: accounts[0] });
     const balance = await HMT.balanceOf.call(accounts[1]);
-    assert.strictEqual(balance.toNumber(), 1000000);
+    assert.equal(balance.toNumber(), 1000000);
   });
 
   it('transfers: should fail when trying to transfer 1000001 to accounts[1] with accounts[0] having 10000', async () => {
@@ -55,7 +66,10 @@ contract('HMToken', (accounts) => {
   });
 
   it('transfers: should handle zero-transfers normally', async () => {
-    assert(await HMT.transfer.call(accounts[1], 0, { from: accounts[0] }), 'zero-transfer has failed');
+    assert(
+      await HMT.transfer.call(accounts[1], 0, { from: accounts[0] }),
+      'zero-transfer has failed',
+    );
   });
 
   // NOTE: testing uint256 wrapping is impossible since you can't supply > 2^256 -1
@@ -65,75 +79,77 @@ contract('HMToken', (accounts) => {
   it('approvals: msg.sender should approve 100 to accounts[1]', async () => {
     await HMT.approve(accounts[1], 100, { from: accounts[0] });
     const allowance = await HMT.allowance.call(accounts[0], accounts[1]);
-    assert.strictEqual(allowance.toNumber(), 100);
+    assert.equal(allowance.toNumber(), 100);
   });
 
   // bit overkill. But is for testing a bug
   it('approvals: msg.sender approves accounts[1] of 100 & withdraws 20 once.', async () => {
     const balance0 = await HMT.balanceOf.call(accounts[0]);
-    assert.strictEqual(balance0.toNumber(), 1000000);
+    assert.equal(balance0.toNumber(), 1000000);
 
     await HMT.approve(accounts[1], 100, { from: accounts[0] }); // 100
     const balance2 = await HMT.balanceOf.call(accounts[2]);
-    assert.strictEqual(balance2.toNumber(), 0, 'balance2 not correct');
+    assert.equal(balance2.toNumber(), 0, 'balance2 not correct');
 
-    await HMT.transferFrom.call(accounts[0], accounts[2], 20, { from: accounts[1] });
+    await HMT.transferFrom.call(accounts[0], accounts[2], 20, {
+      from: accounts[1],
+    });
     await HMT.allowance.call(accounts[0], accounts[1]);
     await HMT.transferFrom(accounts[0], accounts[2], 20, { from: accounts[1] }); // -20
     const allowance01 = await HMT.allowance.call(accounts[0], accounts[1]);
-    assert.strictEqual(allowance01.toNumber(), 80); // =80
+    assert.equal(allowance01.toNumber(), 80); // =80
 
     const balance22 = await HMT.balanceOf.call(accounts[2]);
-    assert.strictEqual(balance22.toNumber(), 20);
+    assert.equal(balance22.toNumber(), 20);
 
     const balance02 = await HMT.balanceOf.call(accounts[0]);
-    assert.strictEqual(balance02.toNumber(), 999980);
+    assert.equal(balance02.toNumber(), 999980);
   });
 
   // should approve 100 of msg.sender & withdraw 50, twice. (should succeed)
   it('approvals: msg.sender approves accounts[1] of 100 & withdraws 20 twice.', async () => {
     await HMT.approve(accounts[1], 100, { from: accounts[0] });
     const allowance01 = await HMT.allowance.call(accounts[0], accounts[1]);
-    assert.strictEqual(allowance01.toNumber(), 100);
+    assert.equal(allowance01.toNumber(), 100);
 
     await HMT.transferFrom(accounts[0], accounts[2], 20, { from: accounts[1] });
     const allowance012 = await HMT.allowance.call(accounts[0], accounts[1]);
-    assert.strictEqual(allowance012.toNumber(), 80);
+    assert.equal(allowance012.toNumber(), 80);
 
     const balance2 = await HMT.balanceOf.call(accounts[2]);
-    assert.strictEqual(balance2.toNumber(), 20);
+    assert.equal(balance2.toNumber(), 20);
 
     const balance0 = await HMT.balanceOf.call(accounts[0]);
-    assert.strictEqual(balance0.toNumber(), 999980);
+    assert.equal(balance0.toNumber(), 999980);
 
     // FIRST tx done.
     // onto next.
     await HMT.transferFrom(accounts[0], accounts[2], 20, { from: accounts[1] });
     const allowance013 = await HMT.allowance.call(accounts[0], accounts[1]);
-    assert.strictEqual(allowance013.toNumber(), 60);
+    assert.equal(allowance013.toNumber(), 60);
 
     const balance22 = await HMT.balanceOf.call(accounts[2]);
-    assert.strictEqual(balance22.toNumber(), 40);
+    assert.equal(balance22.toNumber(), 40);
 
     const balance02 = await HMT.balanceOf.call(accounts[0]);
-    assert.strictEqual(balance02.toNumber(), 999960);
+    assert.equal(balance02.toNumber(), 999960);
   });
 
   // should approve 100 of msg.sender & withdraw 50 & 60 (should fail).
   it('approvals: msg.sender approves accounts[1] of 100 & withdraws 50 & 60 (2nd tx should fail)', async () => {
     await HMT.approve(accounts[1], 100, { from: accounts[0] });
     const allowance01 = await HMT.allowance.call(accounts[0], accounts[1]);
-    assert.strictEqual(allowance01.toNumber(), 100);
+    assert.equal(allowance01.toNumber(), 100);
 
     await HMT.transferFrom(accounts[0], accounts[2], 50, { from: accounts[1] });
     const allowance012 = await HMT.allowance.call(accounts[0], accounts[1]);
-    assert.strictEqual(allowance012.toNumber(), 50);
+    assert.equal(allowance012.toNumber(), 50);
 
     const balance2 = await HMT.balanceOf.call(accounts[2]);
-    assert.strictEqual(balance2.toNumber(), 50);
+    assert.equal(balance2.toNumber(), 50);
 
     const balance0 = await HMT.balanceOf.call(accounts[0]);
-    assert.strictEqual(balance0.toNumber(), 999950);
+    assert.equal(balance0.toNumber(), 999950);
 
     // FIRST tx done.
     // onto next.
@@ -152,55 +168,65 @@ contract('HMToken', (accounts) => {
   });
 
   it('approvals: approve max (2^256 - 1)', async () => {
-    await HMT.approve(accounts[1], '115792089237316195423570985008687907853269984665640564039457584007913129639935', { from: accounts[0] });
+    await HMT.approve(
+      accounts[1],
+      '115792089237316195423570985008687907853269984665640564039457584007913129639935',
+      { from: accounts[0] },
+    );
     const allowance = await HMT.allowance(accounts[0], accounts[1]);
-    assert(allowance.equals('1.15792089237316195423570985008687907853269984665640564039457584007913129639935e+77'));
+    assert.equal(
+      allowance,
+      new BN('115792089237316195423570985008687907853269984665640564039457584007913129639935').toString(),
+    );
   });
 
   // should approve max of msg.sender & withdraw 20 without changing allowance (should succeed).
   it('approvals: msg.sender approves accounts[1] of max (2^256 - 1) & withdraws 20', async () => {
     const balance0 = await HMT.balanceOf.call(accounts[0]);
-    assert.strictEqual(balance0.toNumber(), 1000000);
+    assert.equal(balance0.toNumber(), 1000000);
 
-    const max = '1.15792089237316195423570985008687907853269984665640564039457584007913129639935e+77';
+    const max = new BN('115792089237316195423570985008687907853269984665640564039457584007913129639935').toString();
     await HMT.approve(accounts[1], max, { from: accounts[0] });
     const balance2 = await HMT.balanceOf.call(accounts[2]);
-    assert.strictEqual(balance2.toNumber(), 0, 'balance2 not correct');
+    assert.equal(balance2.toNumber(), 0, 'balance2 not correct');
 
     await HMT.transferFrom(accounts[0], accounts[2], 20, { from: accounts[1] });
     const allowance01 = await HMT.allowance.call(accounts[0], accounts[1]);
-    assert(allowance01.equals(max));
+    assert.equal(allowance01, max);
 
     const balance22 = await HMT.balanceOf.call(accounts[2]);
-    assert.strictEqual(balance22.toNumber(), 20);
+    assert.equal(balance22.toNumber(), 20);
 
     const balance02 = await HMT.balanceOf.call(accounts[0]);
-    assert.strictEqual(balance02.toNumber(), 999980);
+    assert.equal(balance02.toNumber(), 999980);
   });
 
   /* eslint-disable no-underscore-dangle */
   it('events: should fire Transfer event properly', async () => {
     const res = await HMT.transfer(accounts[1], '2666', { from: accounts[0] });
-    const transferLog = res.logs.find(element => element.event.match('Transfer'));
-    assert.strictEqual(transferLog.args._from, accounts[0]);
-    assert.strictEqual(transferLog.args._to, accounts[1]);
-    assert.strictEqual(transferLog.args._value.toString(), '2666');
+    const transferLog = res.logs.find(element =>
+      element.event.match('Transfer'));
+    assert.equal(transferLog.args._from, accounts[0]);
+    assert.equal(transferLog.args._to, accounts[1]);
+    assert.equal(transferLog.args._value.toString(), '2666');
   });
 
   it('events: should fire Transfer event normally on a zero transfer', async () => {
     const res = await HMT.transfer(accounts[1], '0', { from: accounts[0] });
-    const transferLog = res.logs.find(element => element.event.match('Transfer'));
-    assert.strictEqual(transferLog.args._from, accounts[0]);
-    assert.strictEqual(transferLog.args._to, accounts[1]);
-    assert.strictEqual(transferLog.args._value.toString(), '0');
+    const transferLog = res.logs.find(element =>
+      element.event.match('Transfer'));
+    assert.equal(transferLog.args._from, accounts[0]);
+    assert.equal(transferLog.args._to, accounts[1]);
+    assert.equal(transferLog.args._value.toString(), '0');
   });
 
   it('events: should fire Approval event properly', async () => {
     const res = await HMT.approve(accounts[1], '2666', { from: accounts[0] });
-    const approvalLog = res.logs.find(element => element.event.match('Approval'));
-    assert.strictEqual(approvalLog.args._owner, accounts[0]);
-    assert.strictEqual(approvalLog.args._spender, accounts[1]);
-    assert.strictEqual(approvalLog.args._value.toString(), '2666');
+    const approvalLog = res.logs.find(element =>
+      element.event.match('Approval'));
+    assert.equal(approvalLog.args._owner, accounts[0]);
+    assert.equal(approvalLog.args._spender, accounts[1]);
+    assert.equal(approvalLog.args._value.toString(), '2666');
   });
 
   it('events: should fire BulkTransfer event properly', async () => {
@@ -210,7 +236,7 @@ contract('HMToken', (accounts) => {
     res.logs.find(element => element.event.match('Transfer'));
     res.logs.find(element => element.event.match('BulkTransfer'));
     const balance02 = await HMT.balanceOf.call(accounts[0]);
-    assert.strictEqual(balance02.toNumber(), 999994);
+    assert.equal(balance02.toNumber(), 999994);
   });
 
   it('events: should fire BulkApprove event properly', async () => {
