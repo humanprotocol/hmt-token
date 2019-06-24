@@ -204,8 +204,7 @@ contract('HMToken', (accounts) => {
   /* eslint-disable no-underscore-dangle */
   it('events: should fire Transfer event properly', async () => {
     const res = await HMT.transfer(accounts[1], '2666', { from: accounts[0] });
-    const transferLog = res.logs.find(element =>
-      element.event.match('Transfer'));
+    const transferLog = res.logs.find(element => element.event.match('Transfer'));
     assert.equal(transferLog.args._from, accounts[0]);
     assert.equal(transferLog.args._to, accounts[1]);
     assert.equal(transferLog.args._value.toString(), '2666');
@@ -213,8 +212,7 @@ contract('HMToken', (accounts) => {
 
   it('events: should fire Transfer event normally on a zero transfer', async () => {
     const res = await HMT.transfer(accounts[1], '0', { from: accounts[0] });
-    const transferLog = res.logs.find(element =>
-      element.event.match('Transfer'));
+    const transferLog = res.logs.find(element => element.event.match('Transfer'));
     assert.equal(transferLog.args._from, accounts[0]);
     assert.equal(transferLog.args._to, accounts[1]);
     assert.equal(transferLog.args._value.toString(), '0');
@@ -222,8 +220,7 @@ contract('HMToken', (accounts) => {
 
   it('events: should fire Approval event properly', async () => {
     const res = await HMT.approve(accounts[1], '2666', { from: accounts[0] });
-    const approvalLog = res.logs.find(element =>
-      element.event.match('Approval'));
+    const approvalLog = res.logs.find(element => element.event.match('Approval'));
     assert.equal(approvalLog.args._owner, accounts[0]);
     assert.equal(approvalLog.args._spender, accounts[1]);
     assert.equal(approvalLog.args._value.toString(), '2666');
