@@ -11,9 +11,9 @@
     "fix:js": "eslint --fix test/** migrations/**",
     "lint:js": "eslint test/** migrations/**",
     "lint:sol": "solhint contracts/*.sol contracts/*/*.sol test/*.sol test/*/*.sol",
-    "lint": "npm run lint:js && npm run lint:sol",
+    "lint": "yarn lint:js && yarn lint:sol",
     "publish": "truffle publish",
-    "pretest": "npm run lint",
+    "pretest": "yarn lint",
     "test": "truffle test"
   },
   "repository": {
@@ -29,7 +29,6 @@
   "license": "MIT",
   "homepage": "https://github.com/hCaptcha/hmt-token#readme",
   "dependencies": {
-    "truffle": "4.1.13",
     "truffle-hdwallet-provider": "0.0.5"
   },
   "devDependencies": {
