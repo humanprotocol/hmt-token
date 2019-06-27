@@ -23,15 +23,17 @@ contract HMTokenInterface {
     event BulkApproval(uint256 indexed _txId, uint256 _bulkCount);
     event BulkApprovalFailure(uint256 indexed _txId, uint256 _bulkCount);
 
-    /// @param _owner The address from which the balance will be retrieved
-    /// @return The balance
-    function balanceOf(address _owner) public view returns (uint256 balance);
-
     /// @notice send `_value` token to `_to` from `msg.sender`
     /// @param _to The address of the recipient
     /// @param _value The amount of token to be transferred
     /// @return Whether the transfer was successful or not
     function transfer(address _to, uint256 _value) public returns (bool success);
+
+    /// @notice send `_values` tokens to `_tos` from `msg.sender`
+    /// @param _tos The addresses of the recipients
+    /// @param _values The amount of tokens to be transferred
+    /// @return Number of transfers completed
+    function transferBulk(address[] memory _tos, uint256[] memory _values, uint256 _txId) public returns (uint256 _bulkCount);
 
     /// @notice send `_value` token to `_to` from `_from` on the condition it is approved by `_from`
     /// @param _from The address of the sender
@@ -46,8 +48,30 @@ contract HMTokenInterface {
     /// @return Whether the approval was successful or not
     function approve(address _spender, uint256 _value) public returns (bool success);
 
+    /// @notice `msg.sender` approves `_spenders` to spend `_values` tokens
+    /// @param _spenders The addresses of the accounts able to transfer the tokens
+    /// @param _values The amount of tokens to be approved for transfers
+    /// @return Number of approvals completed
+    function approveBulk(address[] memory _spenders, uint256[] memory _values, uint256 _txId) public returns (uint256 _bulkCount);
+
+    /// @notice `msg.sender` increases `_spender` to spend `_delta` more tokens
+    /// @param _spender The address of the account able to transfer the tokens
+    /// @param _delta The amount of tokens more to be approved for transfer
+    /// @return Whether the approval increase was successful or not
+    function increaseApproval(address _spender, uint256 _delta) public returns (bool success);
+
+    /// @notice `msg.sender` decreases `_spender` to spend `_delta` less tokens
+    /// @param _spender The address of the account able to transfer the tokens
+    /// @param _delta The amount of tokens less to be approved for transfer
+    /// @return Whether the approval decrease was successful or not
+    function decreaseApproval(address _spender, uint256 _delta) public returns (bool success);
+
     /// @param _owner The address of the account owning tokens
     /// @param _spender The address of the account able to transfer the tokens
     /// @return Amount of remaining tokens allowed to spent
     function allowance(address _owner, address _spender) public view returns (uint256 remaining);
+
+    /// @param _owner The address from which the balance will be retrieved
+    /// @return The balance
+    function balanceOf(address _owner) public view returns (uint256 balance);
 }
