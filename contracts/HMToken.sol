@@ -40,14 +40,14 @@ contract HMToken is HMTokenInterface {
         require(_tos.length < BULK_MAX_COUNT, "Too many recipients");
 
         uint256 _bulkValue = 0;
-        for (uint j = 0; j < _tos.length; ++j) {
+        for (uint256 j = 0; j < _tos.length; ++j) {
             _bulkValue = _bulkValue.add(_values[j]);
         }
         require(_bulkValue < BULK_MAX_VALUE, "Bulk value too high");
 
         _bulkCount = 0;
         bool _success;
-        for (uint i = 0; i < _tos.length; ++i) {
+        for (uint256 i = 0; i < _tos.length; ++i) {
             _success = transferQuiet(_tos[i], _values[i]);
             if (_success) {
                 _bulkCount = _bulkCount.add(1);
@@ -88,14 +88,14 @@ contract HMToken is HMTokenInterface {
         require(_spenders.length < BULK_MAX_COUNT, "Too many spenders");
 
         uint256 _bulkValue = 0;
-        for (uint j = 0; j < _spenders.length; ++j) {
+        for (uint256 j = 0; j < _spenders.length; ++j) {
             _bulkValue = _bulkValue.add(_values[j]);
         }
         require(_bulkValue < BULK_MAX_VALUE, "Bulk value too high");
 
         _bulkCount = 0;
         bool _success;
-        for (uint i = 0; i < _spenders.length; ++i) {
+        for (uint256 i = 0; i < _spenders.length; ++i) {
             _success = increaseApproval(_spenders[i], _values[i]);
             if (_success) {
                 _bulkCount = _bulkCount.add(1);
@@ -107,10 +107,10 @@ contract HMToken is HMTokenInterface {
         return _bulkCount;
     }
 
-    function increaseApproval(address _spender, uint _delta) public returns (bool success) {
+    function increaseApproval(address _spender, uint256 _delta) public returns (bool success) {
         require(_spender != address(0), "Token spender is an uninitialized address");
 
-        uint _oldValue = allowed[msg.sender][_spender];
+        uint256 _oldValue = allowed[msg.sender][_spender];
         if (_oldValue.add(_delta) < _oldValue || _oldValue.add(_delta) >= MAX_UINT256) { // Truncate upon overflow.
             allowed[msg.sender][_spender] = MAX_UINT256.sub(1);
         } else {
@@ -120,10 +120,10 @@ contract HMToken is HMTokenInterface {
         return true;
     }
 
-    function decreaseApproval(address _spender, uint _delta) public returns (bool success) {
+    function decreaseApproval(address _spender, uint256 _delta) public returns (bool success) {
         require(_spender != address(0), "Token spender is an uninitialized address");
 
-        uint _oldValue = allowed[msg.sender][_spender];
+        uint256 _oldValue = allowed[msg.sender][_spender];
         if (_delta > _oldValue) { // Truncate upon overflow.
             allowed[msg.sender][_spender] = 0;
         } else {
