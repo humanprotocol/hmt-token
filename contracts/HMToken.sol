@@ -35,6 +35,30 @@ contract HMToken is HMTokenInterface {
         return success;
     }
 
+    function transferBulk(address[] memory _tos, uint256[] memory _values, uint256 _txId) public returns (uint256 _bulkCount) {
+        require(_tos.length == _values.length, "Amount of recipients and values don't match");
+        require(_tos.length < BULK_MAX_COUNT, "Too many recipients");
+
+        uint256 _bulkValue = 0;
+        for (uint j = 0; j < _tos.length; ++j) {
+            _bulkValue = _bulkValue.add(_values[j]);
+        }
+        require(_bulkValue < BULK_MAX_VALUE, "Bulk value too high");
+
+        _bulkCount = 0;
+        bool _success;
+        for (uint i = 0; i < _tos.length; ++i) {
+            _success = transferQuiet(_tos[i], _values[i]);
+            if (_success) {
+                _bulkCount = _bulkCount.add(1);
+            } else {
+                emit BulkTransferFailure(_txId, _bulkCount);
+            }
+        }
+        emit BulkTransfer(_txId, _bulkCount);
+        return _bulkCount;
+    }
+
     function transferFrom(address _spender, address _to, uint256 _value) public returns (bool success) {
         uint256 _allowance = allowed[_spender][msg.sender];
         require(balances[_spender] >= _value && _allowance >= _value, "Spender balance or allowance too low");
@@ -51,16 +75,36 @@ contract HMToken is HMTokenInterface {
         return true;
     }
 
-    function balanceOf(address _owner) public view returns (uint256 balance) {
-        return balances[_owner];
-    }
-
     function approve(address _spender, uint256 _value) public returns (bool success) {
         require(_spender != address(0), "Token spender is an uninitialized address");
 
         allowed[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value); //solhint-disable-line indent, no-unused-vars
         return true;
+    }
+
+    function approveBulk(address[] memory _spenders, uint256[] memory _values, uint256 _txId) public returns (uint256 _bulkCount) {
+        require(_spenders.length == _values.length, "Amount of spenders and values don't match");
+        require(_spenders.length < BULK_MAX_COUNT, "Too many spenders");
+
+        uint256 _bulkValue = 0;
+        for (uint j = 0; j < _spenders.length; ++j) {
+            _bulkValue = _bulkValue.add(_values[j]);
+        }
+        require(_bulkValue < BULK_MAX_VALUE, "Bulk value too high");
+
+        _bulkCount = 0;
+        bool _success;
+        for (uint i = 0; i < _spenders.length; ++i) {
+            _success = increaseApproval(_spenders[i], _values[i]);
+            if (_success) {
+                _bulkCount = _bulkCount.add(1);
+            } else {
+                emit BulkApprovalFailure(_txId, _bulkCount);
+            }
+        }
+        emit BulkApproval(_txId, _bulkCount);
+        return _bulkCount;
     }
 
     function increaseApproval(address _spender, uint _delta) public returns (bool success) {
@@ -93,52 +137,8 @@ contract HMToken is HMTokenInterface {
         return allowed[_owner][_spender];
     }
 
-    function transferBulk(address[] memory _tos, uint256[] memory _values, uint256 _txId) public returns (uint256 _bulkCount) {
-        require(_tos.length == _values.length, "Amount of recipients and values don't match");
-        require(_tos.length < BULK_MAX_COUNT, "Too many recipients");
-
-        uint256 _bulkValue = 0;
-        for (uint j = 0; j < _tos.length; ++j) {
-            _bulkValue = _bulkValue.add(_values[j]);
-        }
-        require(_bulkValue < BULK_MAX_VALUE, "Bulk value too high");
-
-        _bulkCount = 0;
-        bool _success;
-        for (uint i = 0; i < _tos.length; ++i) {
-            _success = transferQuiet(_tos[i], _values[i]);
-            if (_success) {
-                _bulkCount = _bulkCount.add(1);
-            } else {
-                emit BulkTransferFailure(_txId, _bulkCount);
-            }
-        }
-        emit BulkTransfer(_txId, _bulkCount);
-        return _bulkCount;
-    }
-
-    function approveBulk(address[] memory _spenders, uint256[] memory _values, uint256 _txId) public returns (uint256 _bulkCount) {
-        require(_spenders.length == _values.length, "Amount of spenders and values don't match");
-        require(_spenders.length < BULK_MAX_COUNT, "Too many spenders");
-
-        uint256 _bulkValue = 0;
-        for (uint j = 0; j < _spenders.length; ++j) {
-            _bulkValue = _bulkValue.add(_values[j]);
-        }
-        require(_bulkValue < BULK_MAX_VALUE, "Bulk value too high");
-
-        _bulkCount = 0;
-        bool _success;
-        for (uint i = 0; i < _spenders.length; ++i) {
-            _success = increaseApproval(_spenders[i], _values[i]);
-            if (_success) {
-                _bulkCount = _bulkCount.add(1);
-            } else {
-                emit BulkApprovalFailure(_txId, _bulkCount);
-            }
-        }
-        emit BulkApproval(_txId, _bulkCount);
-        return _bulkCount;
+    function balanceOf(address _owner) public view returns (uint256 balance) {
+        return balances[_owner];
     }
 
     // Like transfer, but fails quietly.
