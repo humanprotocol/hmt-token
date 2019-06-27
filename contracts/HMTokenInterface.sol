@@ -18,6 +18,10 @@ contract HMTokenInterface {
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
+    event BulkTransfer(uint256 indexed _txId, uint256 _bulkCount);
+    event BulkTransferFailure(uint256 indexed _txId, uint256 _bulkCount);
+    event BulkApproval(uint256 indexed _txId, uint256 _bulkCount);
+    event BulkApprovalFailure(uint256 indexed _txId, uint256 _bulkCount);
 
     /// @param _owner The address from which the balance will be retrieved
     /// @return The balance

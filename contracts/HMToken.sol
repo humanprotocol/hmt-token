@@ -14,11 +14,6 @@ contract HMToken is HMTokenInterface {
     uint256 private constant BULK_MAX_VALUE = 1000000000 * (10 ** 18);
     uint32  private constant BULK_MAX_COUNT = 100;
 
-    event BulkTransfer(uint256 indexed _txId, uint256 _bulkCount);
-    event BulkTransferFailure(uint256 indexed _txId, uint256 _bulkCount);
-    event BulkApproval(uint256 indexed _txId, uint256 _bulkCount);
-    event BulkApprovalFailure(uint256 indexed _txId, uint256 _bulkCount);
-
     mapping (address => uint256) private balances;
     mapping (address => mapping (address => uint256)) private allowed;
 
