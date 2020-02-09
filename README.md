@@ -69,3 +69,8 @@ Thanks to ConsenSys for their work on the [ERC20 Token template](https://github.
 
 ## License
 MIT &copy; HUMAN Protocol
+
+## Audit Status
+
+The HUMAN Protocol token contract (HMToken.sol) has been audited by several third parties, most recently CertiK. You can see the results of this audit in the `audits` directory. The code for this contract is stable and not expected to change materially in the future.
+
