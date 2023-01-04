@@ -6,6 +6,12 @@
 
 
 
+.
+.
+.
+
+
+
 This legacy repo contains some of the early development work on the Bulk API and other interesting Ethereum improvements, as well as a reference implementation of the HMT token contract used in the HUMAN Protocol.
 
 
