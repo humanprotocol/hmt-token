@@ -1,6 +1,6 @@
 # HUMAN Protocol - HMT Token Contract
 
-> ## 👉 **Please see the [HUMAN Protocol GitHub Organization](https://github.com/humanprotocol/) for open source projects within the HUMAN ecosystem, or [visit humanprotocol.org/](https://humanprotocol.org/) to learn more about the tech.** 👈
+> ## 👉 **Please see the [HUMAN Protocol GitHub org](https://github.com/humanprotocol/) for open source projects within the HUMAN ecosystem, or [visit humanprotocol.org](https://humanprotocol.org/) to learn more about the tech.** 👈
 
 ### :warning:  **This repo has been archived. Development is ongoing on the repos above.**
 
