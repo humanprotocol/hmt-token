@@ -6,7 +6,7 @@
 
 
 
-This legacy repo contains some of the origial development work on the Bulk API and other interesting Ethereum improvements, as well as a reference implementation of the HMT token contract.
+This legacy repo contains some of the early development work on the Bulk API and other interesting Ethereum improvements, as well as a reference implementation of the HMT token contract used in the HUMAN Protocol.
 
 
 
@@ -18,7 +18,7 @@ This legacy repo contains some of the origial development work on the Bulk API a
 
 ### *Legacy introduction*
 
-This repository features the original source code for the HMT token.
+This repository features the original source code for a reference implementation of the HMT token.
 
 It includes a standard ERC20-compatible token along with a full implementation of a proposed EIP that extends the ERC20 token standard with more efficient bulk payments. Take a look at this blog post on the [Bulk API](https://medium.com/human-protocol/transfer-your-tokens-9-600x-more-efficiently-on-ethereum-using-the-bulk-api-fbc2f10669ed) for a detailed explanation and benchmark results. For more details about the protocol design you can also check out the white paper on [humanprotocol.org](https://humanprotocol.org).
 
